@@ -15,8 +15,5 @@ namespace Engine
             Details = details;
             Quantity = quantity;
         }
-
-
-
     }
 }
