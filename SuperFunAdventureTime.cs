@@ -14,6 +14,7 @@ namespace SuperFunAdventureTime
     public partial class SuperFunAdventureTime : Form
     {
         private Player _player;
+        private Monster _currentMonster;
         public SuperFunAdventureTime()
         {
             InitializeComponent();
@@ -239,9 +240,62 @@ namespace SuperFunAdventureTime
                     //the player does not already have the quest
 
                     //display the messages
+                    rtbMessages.Text += "You recieve the " + newLocation.QuestAvailableHere.Name + " quest." + Environment.NewLine;
+                    rtbMessages.Text += newLocation.QuestAvailableHere.Description + Environment.NewLine;
+                    rtbMessages.Text += "To complete it, return with:" + Environment.NewLine;
+
+                    //display each item
+                    foreach(QuestCompletionItem qci in newLocation.QuestAvailableHere.QuestCompletionItems)
+                    {
+                        if(qci.Quantity == 1)
+                        {
+                            rtbMessages.Text += qci.Quantity.ToString() + " " + qci.Details.Name + Environment.NewLine;
+                        }
+                        else
+                        {
+                            rtbMessages.Text += qci.Quantity.ToString() + " " + qci.Details.NamePlural + Environment.NewLine;
+                        }
+                    }
+
+                    rtbMessages.Text += Environment.NewLine;
+
+                    //add the quest to the player's quest list
+                    _player.Quests.Add(new PlayerQuest(newLocation.QuestAvailableHere));
 
                 }
             }
+
+            //does this location have a monster
+            if(newLocation.MonsterLivingHere != null)
+            {
+                rtbMessages.Text += "You see a " + newLocation.MonsterLivingHere.Name + Environment.NewLine;
+
+                //make a new monster, using the values from the standard monster in the world.monster list
+
+                Monster standardMonster = World.MonsterByID(newLocation.MonsterLivingHere.ID);
+
+                _currentMonster = new Monster(standardMonster.ID, standardMonster.Name, standardMonster.MaximumDamage,
+                    standardMonster.RewardExperiencePoints, standardMonster.RewardGold, standardMonster.CurrentHitPoints, standardMonster.MaximumHitPoints);
+
+                foreach(LootItem lootItem in standardMonster.LootTable)
+                {
+                    _currentMonster.LootTable.Add(lootItem);
+                }
+                cboWeapons.Visible = true;
+                cboPotions.Visible = true;
+                btnUseWeapon.Visible = true;
+                btnUsePotion.Visible = true;
+            }
+            else
+            {
+                _currentMonster = null;
+
+                cboWeapons.Visible = true;
+                cboPotions.Visible = true;
+                btnUseWeapon.Visible = true;
+                btnUsePotion.Visible = true;
+            }
+
         }
     }
  }
