@@ -295,6 +295,105 @@ namespace SuperFunAdventureTime
                 btnUseWeapon.Visible = true;
                 btnUsePotion.Visible = true;
             }
+            //refresh player's inventory list
+            dgvInventory.RowHeadersVisible = false;
+            
+            dgvInventory.ColumnCount = 2;
+            dgvInventory.Columns[0].Name = "Name";
+            dgvInventory.Columns[0].Width = 197;
+            dgvInventory.Columns[1].Name = "Quantity";
+
+            dgvInventory.Rows.Clear();
+
+            foreach(InventoryItem inventoryItem in _player.Inventory)
+            {
+                if(inventoryItem.Quantity > 0)
+                {
+                    dgvInventory.Rows.Add(new[] { inventoryItem.Details.Name, inventoryItem.Quantity.ToString() });
+                }
+            }
+
+            //refresh player's quest list
+            dgvQuests.RowHeadersVisible = false;
+
+            dgvQuests.ColumnCount = 2;
+            dgvQuests.Columns[0].Name = "Name";
+            dgvQuests.Columns[0].Width = 197;
+            dgvQuests.Columns[1].Name = "Done?";
+
+            dgvQuests.Rows.Clear();
+
+            foreach(PlayerQuest playerquest in _player.Quests)
+            {
+                dgvQuests.Rows.Add(new[] { playerquest.Details.Name, playerquest.IsCompleted.ToString() });
+            }
+
+            //refresh player's weapon combobox
+            List<Weapon> weapons = new List<Weapon>();
+
+            foreach(InventoryItem inventoryItem in _player.Inventory)
+            {
+                if(inventoryItem.Details is Weapon)
+                {
+                    if(inventoryItem.Quantity > 0)
+                    {
+                        weapons.Add((Weapon)inventoryItem.Details);
+                    }
+                }
+            }
+
+            if(weapons.Count == 0)
+            {
+                //the player does not have any weapons, so hide the weapon combo box and "Use" button
+                cboWeapons.Visible = false;
+                btnUseWeapon.Visible = false;
+            }
+            else
+            {
+                cboWeapons.DataSource = weapons;
+                cboWeapons.DisplayMember = "Namme";
+                cboWeapons.ValueMember = "ID";
+
+                cboWeapons.SelectedIndex = 0;
+            }
+
+            //Refresh player's potions combo box
+            List<HealingPotion> healingPotions = new List<HealingPotion>();
+
+            foreach(InventoryItem inventoryItem in _player.Inventory)
+            {
+                if(inventoryItem.Details is HealingPotion)
+                {
+                    if(inventoryItem.Quantity > 0)
+                    {
+                        healingPotions.Add((HealingPotion)inventoryItem.Details);
+                    }
+                }
+            }
+
+            if (healingPotions.Count == 0)
+            {
+                //the player doesnt have any potions, so hide the potion combo box and "Use" button
+                cboPotions.Visible = false;
+                btnUsePotion.Visible = false;
+            }
+            else
+            {
+                cboPotions.DataSource = healingPotions;
+                cboPotions.DisplayMember = "Name";
+                cboPotions.ValueMember = "ID";
+
+                cboPotions.SelectedIndex = 0;
+            }
+        }
+
+        private void btnUseWeapon_Cick(object sender, EventArgs e)
+        {
+         
+        }
+
+        private void btnUsePotions_Click(object sender, EventArgs e)
+        {
 
         }
     }
