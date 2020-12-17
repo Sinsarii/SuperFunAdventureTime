@@ -69,10 +69,7 @@ namespace SuperFunAdventureTime
                 }
             }
         }
-
-
-       
-
+                
         private void MoveTo(Location newLocation)
         {
             //Does the location have an required items before entering
@@ -459,6 +456,12 @@ namespace SuperFunAdventureTime
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
             UpdateInventoryListInUI();
             UpdatePotionListInUI();
+        }
+
+        private void ScrollToBottomOfMessages()
+        {
+            rtbMessages.SelectionStart = rtbMessages.Text.Length;
+            rtbMessages.ScrollToCaret();
         }
     }
  }
