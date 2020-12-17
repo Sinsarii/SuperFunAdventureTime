@@ -19,14 +19,11 @@ namespace SuperFunAdventureTime
         {
             InitializeComponent();
 
-            _player = new Player(10,10,20,0,1);
+            _player = new Player(10,10,20,0);
 
             Location location = new Location(1, "Home", "This is your house.");
 
-            lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-            lblGold.Text = _player.Gold.ToString();
-            lblExperience.Text = _player.ExperiencePoints.ToString();
-            lblLevel.Text = _player.Level.ToString();
+            UpdatePlayerStats();
 
         }
 
@@ -203,6 +200,8 @@ namespace SuperFunAdventureTime
                 btnUseWeapon.Visible = true;
                 btnUsePotion.Visible = true;
             }
+            //refresh player's stats
+            UpdatePlayerStats();
             //refresh player's inventory list
             UpdateInventoryListInUI();
             //refresh player's quest list
@@ -292,6 +291,15 @@ namespace SuperFunAdventureTime
                 cboPotions.SelectedIndex = 0;
             }
         }
+
+        private void UpdatePlayerStats()
+        {
+            //Refresh player information and inventory controls
+            lblHitPoints.Text = _player.CurrentHitPoints.ToString();
+            lblGold.Text = _player.Gold.ToString();
+            lblExperience.Text = _player.ExperiencePoints.ToString();
+            lblLevel.Text = _player.Level.ToString();
+        }
         private void btnUseWeapon_Click(object sender, EventArgs e)
         {
             //Get the currently selected weapon from the cboWeapons ComboBox
@@ -361,11 +369,7 @@ namespace SuperFunAdventureTime
                 }
 
                 // Refreshes player information and inventory controls
-                lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-                lblGold.Text = _player.Gold.ToString();
-                lblExperience.Text = _player.ExperiencePoints.ToString();
-                lblLevel.Text = _player.Level.ToString();
-
+                UpdatePlayerStats();
                 UpdateInventoryListInUI();
                 UpdateWeaponsListInUI();
                 UpdatePotionListInUI();
