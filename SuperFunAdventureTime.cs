@@ -22,6 +22,8 @@ namespace SuperFunAdventureTime
             _player = new Player(10,10,20,0);
 
             Location location = new Location(1, "Home", "This is your house.");
+            //MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
+            _player.Inventory.Add(new InventoryItem(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1));
 
             UpdatePlayerStats();
 
@@ -29,22 +31,22 @@ namespace SuperFunAdventureTime
 
         private void btnNorth_Click(object sender, EventArgs e)
         {
-
+            MoveTo(_player.CurrentLocation.LocationToNorth);
         }
 
         private void btnWest_Click(object sender, EventArgs e)
         {
-
+            MoveTo(_player.CurrentLocation.LocationToWest);
         }
 
         private void btnEast_Click(object sender, EventArgs e)
         {
-
+            MoveTo(_player.CurrentLocation.LocationToEast);
         }
 
         private void btnSouth_Click(object sender, EventArgs e)
         {
-
+            MoveTo(_player.CurrentLocation.LocationToSouth);
         }
 
         private void UpdateInventoryListInUI()
