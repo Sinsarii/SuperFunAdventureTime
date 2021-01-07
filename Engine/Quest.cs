@@ -23,6 +23,7 @@ namespace Engine
             Description = description;
             RewardExperiencePoints = rewardExperiencePoints;
             RewardGold = rewardGold;
+            QuestCompletionItems = new List<QuestCompletionItem>();
         }
     }
 }

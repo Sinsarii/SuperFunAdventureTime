@@ -8,22 +8,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Engine;
+using System.IO;
 
 namespace SuperFunAdventureTime
 {
     public partial class SuperFunAdventureTime : Form
     {
+        private const string PLAYER_DATA_FILE_NAME = "PlayerData.xml";
         private Player _player;
         private Monster _currentMonster;
+        
         public SuperFunAdventureTime()
         {
             InitializeComponent();
 
-            _player = new Player(10,10,20,0);
+            if(File.Exists(PLAYER_DATA_FILE_NAME))
+            {
+                _player = Player.CreatedPlayerFromXmlString(File.ReadAllText(PLAYER_DATA_FILE_NAME));
+            }
+            else
+            {
+                _player = Player.CreateDefaultPlayer();
+            }
 
-            Location location = new Location(1, "Home", "This is your house.");
-            //MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
-            _player.Inventory.Add(new InventoryItem(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1));
+            MoveTo(_player.CurrentLocation);
 
             UpdatePlayerStats();
 
@@ -468,6 +476,11 @@ namespace SuperFunAdventureTime
         {
             rtbMessages.SelectionStart = rtbMessages.Text.Length;
             rtbMessages.ScrollToCaret();
+        }
+
+        private void SuperFunAdventureTime_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            File.WriteAllText(PLAYER_DATA_FILE_NAME, _player.ToXMLString());
         }
     }
  }

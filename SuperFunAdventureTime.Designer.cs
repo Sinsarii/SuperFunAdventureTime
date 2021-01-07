@@ -282,6 +282,7 @@
             this.Controls.Add(this.label1);
             this.Name = "SuperFunAdventureTime";
             this.Text = "Super Adventure Fun Time";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SuperFunAdventureTime_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQuests)).EndInit();
             this.ResumeLayout(false);
